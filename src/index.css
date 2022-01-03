@@ -11,3 +11,69 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+
+.img-logo{
+  padding: 5px auto;
+  margin: 0% 32%;
+  width: 35%;
+  height: 35%;
+}
+
+.p-dialog-header-close .p-dialog-header-close-icons{
+  display: none;
+  
+}
+
+.p-dialog-mask .p-dialog .p-dialog-header{
+  padding: 5px;
+}
+
+.btn-aceptar{
+  padding: 0px 5px;
+  background-color: green;
+}
+
+.p-card-content{
+  padding-top: 5px;
+}
+
+#loading{
+  background-color: rgba(250, 240, 245, 0.9);
+  height: 100%;
+  width: 100%;
+  position: fixed;
+  -webkit-transition: all 1s ease;
+  -o-transition: all 1s ease;
+  transition: all 1s ease;
+  z-index: 10000;
+
+}
+
+#loading{
+  border: 15px solid #ccc;
+  border-top-color: rgb(19, 102, 226);
+  border-top-style: groove;
+  height: 70px;
+  width: 70px;
+  border-radius: 100%;
+
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+
+  animation: loading 1s linear infinite;
+  -o-animation: loading 1s linear infinite ;
+  animation: loading 1s linear infinite ;
+
+}
+
+@keyframes loading {
+
+  from { transform: rotate(0deg);}
+  to {transform: rotate(360deg);}
+}
+

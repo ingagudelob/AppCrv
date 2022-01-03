@@ -1,0 +1,28 @@
+#id{
+    padding: 5px;
+  }
+
+#user{
+    padding: 5px;
+}
+
+#userName{
+    padding: 5px;
+}
+
+#userTelephone{
+    padding: 5px;
+}
+
+#sede{
+    padding: 5px;
+}
+
+#pass{
+
+    padding: 5px;
+}
+
+.text-bold{
+    font-weight: bold;
+}
