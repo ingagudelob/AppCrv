@@ -9,7 +9,9 @@ import {
   faSearch,
   faChartLine,
   faFileContract,
-  faUsers
+  faUsers,
+  faBroadcastTower,
+  faPlaceOfWorship
 } from "@fortawesome/free-solid-svg-icons";
 
 const Navigator = () => {
@@ -35,7 +37,7 @@ const Navigator = () => {
               margin: "0px",
             }}
           >
-            APP Crv
+            <b>APP Crv</b>
           </p>
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -97,13 +99,18 @@ const Navigator = () => {
 
           <Nav className="mx-1">
             <Nav.Link as={NavLink} to="/users">
-                <FontAwesomeIcon fontSize="55px"  style={{margin: "0px  10px -5px", fontSize: "25px"}}  title="Nuevo Usuario" icon={faUsers} />
+                <FontAwesomeIcon fontSize="55px"  style={{margin: "0px  10px -5px", fontSize: "25px"}}  title="Usuarios" icon={faUsers} />
                 Usuarios
             </Nav.Link>
-            <Nav.Link as={NavLink} to="/consolidado">
-              Consolidado
+            <Nav.Link as={NavLink} to="/emisoras">
+              <FontAwesomeIcon fontSize="55px"  style={{margin: "0px  10px -5px", fontSize: "22px"}}  title="Emisoras" icon={faBroadcastTower} />
+              Emisoras
             </Nav.Link>
-            <Nav.Link as={NavLink} to="/">
+            <Nav.Link as={NavLink} to="/iglesias">
+              <FontAwesomeIcon fontSize="55px"  style={{margin: "0px  10px -5px", fontSize: "22px"}}  title="Iglesias" icon={faPlaceOfWorship} />
+              Iglesias
+            </Nav.Link>
+            <Nav.Link as={NavLink} to="/cerrar">
               Cerrar sesión
             </Nav.Link>
             <Nav.Link

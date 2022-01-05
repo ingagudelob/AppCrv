@@ -2,26 +2,24 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { Table } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faUserPlus,
-} from "@fortawesome/free-solid-svg-icons";
+import { faUserPlus } from "@fortawesome/free-solid-svg-icons";
 import { Dialog } from "primereact/dialog";
 import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
-import './cssPage/cssPages.css'
-import { Checkbox } from 'primereact/checkbox';
+import ButtonB from "react-bootstrap/Button";
+import "./cssPage/cssPages.css";
+import Form from "react-bootstrap/Form";
 
 const URLBasic = "http://localhost:9000/apiscrv/user/";
 
 const UserPage = () => {
-
   const [dataUser, setDataUser] = useState([]);
   const [addData, setAddData] = useState([]);
   const [tablaBuscar, setTablaBuscar] = useState([]);
   const [menuVisible, setmenuVisible] = useState(false);
+  const [deleteVisible, setDeleteVisible] = useState(false);
   const [editarVisible, setEditarVisible] = useState(false);
   const [insertSuplier, setInsertSuplier] = useState([]);
-  const [checked, setChecked] = useState(false);
 
   /** Peticion de lectura de usuarios */
 
@@ -29,7 +27,6 @@ const UserPage = () => {
     await axios.get(URLBasic + "listUser").then((response) => {
       setDataUser(response.data);
       setTablaBuscar(response.data);
-      console.log(response);
     });
   };
 
@@ -43,21 +40,36 @@ const UserPage = () => {
     getAllUser();
   };
 
+  // Creamos la peticion Delete
+  const deleteUser = async () => {
+    await axios.get(URLBasic + "deleteUser/" + insertSuplier.id).then((res) => {
+      setDataUser(dataUser.filter((user) => user.id !== insertSuplier.id));
+    });
+    handleDialogEliminar();
+    setInsertSuplier([]);
+    getAllUser();
+  };
+
+  const selectUser = (user, accion) => {
+
+    setInsertSuplier(user);
+    if (accion === "Editar") {
+      setEditarVisible(true);
+    } else {
+      setInsertSuplier(user);
+      handleDialogEliminar();
+    }
+  };
 
   const renderFooter = (name) => {
     return (
       <div>
         <div className="text-center mt-2">
-          <b>© 2021 Copyright</b> | APP Informes CRV
+          <b>© 2022 Copyright</b> | APP Informes CRV
         </div>
       </div>
     );
   };
-
-  const handleCheckRole = (click)=>{
-    console.log(click.target.value)
-    
-  }
 
   const capturaInput = (e) => {
     const { id, value } = e.target;
@@ -67,12 +79,14 @@ const UserPage = () => {
     }));
   };
 
-  
-  const handleDialogVisible = ()=>{
+  const handleDialogVisible = () => {
     setmenuVisible(true);
     setInsertSuplier([]);
-  }
+  };
 
+  const handleDialogEliminar = () => {
+    setDeleteVisible(!deleteVisible);
+  };
 
   useEffect(() => {
     getAllUser();
@@ -82,20 +96,34 @@ const UserPage = () => {
     <>
       <div className="container">
         <h1>Registro de nuevos técnicos</h1>
-        <hr/>
+        <hr />
         <div>
-          <button 
-            onClick={()=>{handleDialogVisible()}}
-            type="button" 
-            className="btn btn-primary"><FontAwesomeIcon className="" icon={faUserPlus} 
-            style={{fontSize: "25px", margin: "5px"}}/>
-              <b style={{display: "flex", alignContent: "center", textAlign: "center"}}>
-              Nuevo Usuario</b>
+          <button
+            onClick={() => {
+              handleDialogVisible();
+            }}
+            type="button"
+            className="btn btn-primary"
+          >
+            <FontAwesomeIcon
+              className=""
+              icon={faUserPlus}
+              style={{ fontSize: "25px", margin: "5px" }}
+            />
+            <b
+              style={{
+                display: "flex",
+                alignContent: "center",
+                textAlign: "center",
+              }}
+            >
+              Nuevo Usuario
+            </b>
           </button>
         </div>
-        <br/>
+        <br />
 
-        <Table className="container">
+        <Table className="container md">
           <thead className="text-center text-bold">
             <tr>
               <td>Id</td>
@@ -117,6 +145,23 @@ const UserPage = () => {
                 <td>{usuario.pass}</td>
                 <td>{usuario.sede}</td>
                 <td>{usuario.role}</td>
+
+                <td width="10%">
+                  <ButtonB
+                    className=" mb-1 mt-1"
+                    variant="warning"
+                    onClick={() => selectUser(usuario, "Editar")}
+                  >
+                    <i className="pi pi-pencil" width="20%"></i>
+                  </ButtonB>{" "}
+                  <ButtonB
+                    className=" mb-1 mt-1"
+                    variant="danger"
+                    onClick={() => selectUser(usuario, "Eliminar")}
+                  >
+                    <i className="pi pi-trash" width="20%"></i>
+                  </ButtonB>
+                </td>
               </tr>
             ))}
           </tbody>
@@ -125,9 +170,8 @@ const UserPage = () => {
 
       {/** ------------------ Ventana para agregar proveedor nuevo ---------------*/}
       <div>
-
         <Dialog
-          header="Agregar técnico nuevo"
+          header="Agregar un nuevo técnico"
           visible={menuVisible}
           style={{ width: "400px", fontSize: "12px" }}
           modal={true}
@@ -140,73 +184,127 @@ const UserPage = () => {
               <label htmlFor="id">Id</label>
               </span>*/}
 
-            <span className="p-float-label mt-4">
-              <InputText 
-                className="container" 
-                id="id" 
-                onChange={capturaInput} />
-              <label htmlFor="user">Identificación</label>
+            <span className="p-float-label mt-2">
+              <InputText
+                required
+                placeholder="Identificación"
+                className="container"
+                id="id"
+                onChange={capturaInput}
+              />
             </span>
 
-            <span className="p-float-label mt-4">
+            <span className="p-float-label mt-3">
               <InputText
+                required
+                placeholder="Nombre"
                 className="container"
                 id="userName"
                 onChange={capturaInput}
               />
-              <label htmlFor="user">Nombre del cliente</label>
             </span>
 
-            <span className="p-float-label mt-4">
+            <span className="p-float-label mt-3">
               <InputText
+                required
+                placeholder="Teléfono"
                 className="container"
                 id="userTelephone"
                 onChange={capturaInput}
               />
-              <label htmlFor="user">Telefono o Celular</label>
             </span>
 
-            <span className="p-float-label mt-4">
+            <span className="p-float-label mt-3">
               <InputText
+                required
+                placeholder='Usuario - "ejemplo@midominio.com"'
+                type="email"
                 className="container"
                 id="user"
                 onChange={capturaInput}
               />
-              <label htmlFor="user">Usuario(email)</label>
             </span>
 
-            <span className="p-float-label mt-4">
+            <span className="p-float-label mt-3">
               <InputText
+                required
+                placeholder="Contraseña"
+                type="password"
                 className="container"
                 id="pass"
                 onChange={capturaInput}
               />
-              <label htmlFor="user">Contraseña</label>
             </span>
 
-            <span className="p-float-label mt-4">
+            <span className="p-float-label mt-3">
               <InputText
+                required
+                placeholder="Ciudad"
                 className="container"
                 id="sede"
                 onChange={capturaInput}
               />
-              <label htmlFor="user">Ciudad</label>
             </span>
-
+            {/*
             <div className="p-field-checkbox mt-2">
-                    <Checkbox 
-                      inputId="binary" checked={checked} 
-                      onChange={(e)=>{
-                        setChecked(true)
+              <Checkbox
+                inputId="binary"
+                checked={onCheck}
+                onChange={(e) => {
+                  setInChecked("admin");
+                  setOnCheck(!onCheck);
+                  capturaInput();
+                }}
+                id="role"
+                value={inChecked}
+              />
+              <label style={{ paddingLeft: "10px" }} htmlFor="binary">
+                Admin
+              </label>
+            </div>*/}
+
+            <div className="mt-2">
+              <div style={{ paddingTop: "10px" }}>
+                <Form>
+                  <p className="mx-1">Administrador: </p>
+                  <div className="mx-1">
+                    <Form.Check
+                      inline
+                      label="Si"
+                      name="adminAdd"
+                      type="radio"
+                      id="estudios"
+                      value="admin"
+                      onChange={(evento) => {
+                        const { id, value } = evento.target;
+                        setInsertSuplier((prevState) => ({
+                          ...prevState,
+                          [id]: value,
+                        }));
                       }}
-                      id="role"
-                      value="regular"
                     />
-                    <label htmlFor="binary">Admin</label>
+                    <Form.Check
+                      inline
+                      label="No"
+                      name="adminAdd"
+                      type="radio"
+                      id="estudios"
+                      value="tecnico"
+                      onChange={(evento) => {
+                        const { id, value } = evento.target;
+                        setInsertSuplier((prevState) => ({
+                          ...prevState,
+                          [id]: value,
+                        }));
+                      }}
+                    />
+                  </div>
+                </Form>
+              </div>
             </div>
           </div>
 
-          <div className="container">
+          <div className="">
             <div className="row">
               <div className="col text-center">
                 <Button
@@ -245,6 +343,7 @@ const UserPage = () => {
 
           <span className="p-float-label mt-4">
             <InputText
+              disabled
               className="container"
               id="id"
               value={insertSuplier && insertSuplier.id}
@@ -256,8 +355,8 @@ const UserPage = () => {
           <span className="p-float-label mt-4">
             <InputText
               className="container"
-              id="clientName"
-              value={insertSuplier && insertSuplier.clientName}
+              id="userName"
+              value={insertSuplier && insertSuplier.userName}
               onChange={capturaInput}
             />
             <label htmlFor="user">Nombre</label>
@@ -266,8 +365,8 @@ const UserPage = () => {
           <span className="p-float-label mt-4">
             <InputText
               className="container"
-              id="clientNumber"
-              value={insertSuplier && insertSuplier.clientNumber}
+              id="userTelephone"
+              value={insertSuplier && insertSuplier.userTelephone}
               onChange={capturaInput}
             />
             <label htmlFor="user">Teléfono o Celular</label>
@@ -276,21 +375,21 @@ const UserPage = () => {
           <span className="p-float-label mt-4">
             <InputText
               className="container"
-              id="clientAdress"
-              value={insertSuplier && insertSuplier.clientAdress}
+              id="user"
+              value={insertSuplier && insertSuplier.user}
               onChange={capturaInput}
             />
-            <label htmlFor="user">Dirección</label>
+            <label htmlFor="user">Usuario (E-mail)</label>
           </span>
 
           <span className="p-float-label mt-4">
             <InputText
               className="container"
-              id="clientEmail"
-              value={insertSuplier && insertSuplier.clientEmail}
+              id="pass"
+              value={insertSuplier && insertSuplier.pass}
               onChange={capturaInput}
             />
-            <label htmlFor="user">Correo</label>
+            <label htmlFor="user">Contraseña</label>
           </span>
 
           <span className="p-float-label mt-4">
@@ -302,6 +401,44 @@ const UserPage = () => {
             />
             <label htmlFor="user">Ciudad</label>
           </span>
+
+          <div style={{ paddingTop: "10px" }}>
+            <Form>
+              <p className="mx-1">Administrador: </p>
+              <div className="mx-1">
+                <Form.Check
+                  inline
+                  label="Si"
+                  name="adminEdit"
+                  type="radio"
+                  id="role"
+                  value="admin"
+                  onChange={(evento) => {
+                    const { id, value } = evento.target;
+                    setInsertSuplier((prevState) => ({
+                      ...prevState,
+                      [id]: value,
+                    }));
+                  }}
+                />
+                <Form.Check
+                  inline
+                  label="No"
+                  name="adminEdit"
+                  type="radio"
+                  id="role"
+                  value="tecnico"
+                  onChange={(evento) => {
+                    const { id, value } = evento.target;
+                    setInsertSuplier((prevState) => ({
+                      ...prevState,
+                      [id]: value,
+                    }));
+                  }}
+                />
+              </div>
+            </Form>
+          </div>
         </div>
 
         <div className="container">
@@ -318,6 +455,42 @@ const UserPage = () => {
         </div>
       </Dialog>
 
+
+      {/* ------------------ Ventana para confirmar al eliminar ---------------*/}
+
+      <Dialog
+        className="text-center"
+        header="Eliminar Usuarios"
+        visible={deleteVisible}
+        style={{ width: "400px", fontSize: "12px" }}
+        modal={true}
+        onHide={() => setEditarVisible(false)}
+        footer={renderFooter("displayBasic")}
+      >
+        <h5>
+          ¿Deseas eliminar este usuario{" "}
+          <b>{insertSuplier && insertSuplier.userName}</b>?
+        </h5>
+        <div align="right">
+          <ButtonB
+            className="mx-2"
+            variant="danger"
+            onClick={() => {
+              deleteUser();
+            }}
+          >
+            Aceptar
+          </ButtonB>
+          <ButtonB
+            color="secondary"
+            onClick={() => {
+              handleDialogEliminar();
+            }}
+          >
+            Cancelar
+          </ButtonB>
+        </div>
+      </Dialog>
     </>
   );
 };

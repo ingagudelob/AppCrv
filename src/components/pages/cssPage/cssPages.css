@@ -1,26 +1,32 @@
 #id{
-    padding: 5px;
+    padding: 4px;
+    font-size: 14px;
   }
 
 #user{
-    padding: 5px;
+    padding: 4px;
+    font-size: 14px;
 }
 
 #userName{
-    padding: 5px;
+    padding: 4px;
+    font-size: 14px;
 }
 
 #userTelephone{
-    padding: 5px;
+    padding: 4px;
+    font-size: 14px;
 }
 
 #sede{
-    padding: 5px;
+    padding: 4px;
+    font-size: 14px;
 }
 
 #pass{
 
-    padding: 5px;
+    padding: 4px;
+    font-size: 14px;
 }
 
 .text-bold{
