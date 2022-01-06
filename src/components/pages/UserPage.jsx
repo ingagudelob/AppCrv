@@ -9,6 +9,7 @@ import { Button } from "primereact/button";
 import ButtonB from "react-bootstrap/Button";
 import "./cssPage/cssPages.css";
 import Form from "react-bootstrap/Form";
+import Footer from "../../footers/Footer";
 
 const URLBasic = "http://localhost:9000/apiscrv/user/";
 
@@ -16,6 +17,7 @@ const UserPage = () => {
   const [dataUser, setDataUser] = useState([]);
   const [addData, setAddData] = useState([]);
   const [tablaBuscar, setTablaBuscar] = useState([]);
+  const [search, setSearch] = useState("");
   const [menuVisible, setmenuVisible] = useState(false);
   const [deleteVisible, setDeleteVisible] = useState(false);
   const [editarVisible, setEditarVisible] = useState(false);
@@ -51,7 +53,6 @@ const UserPage = () => {
   };
 
   const selectUser = (user, accion) => {
-
     setInsertSuplier(user);
     if (accion === "Editar") {
       setEditarVisible(true);
@@ -61,6 +62,30 @@ const UserPage = () => {
     }
   };
 
+  // Metodo para buscar
+
+  const handleSearch = (e) => {
+    setSearch(e.target.value);
+    searchFilter(e.target.value);
+  };
+
+  const searchFilter = (usuarioBuscado) => {
+    var resBusqueda = tablaBuscar.filter((usuario) => {
+      
+      if (
+        usuario.userName
+          .toString()
+          .toLowerCase()
+          .includes(usuarioBuscado.toLowerCase())
+      ) {
+        return usuario;
+      }
+    });
+    setDataUser(resBusqueda);
+  };
+
+  /**
+   * 
   const renderFooter = (name) => {
     return (
       <div>
@@ -70,6 +95,7 @@ const UserPage = () => {
       </div>
     );
   };
+     */
 
   const capturaInput = (e) => {
     const { id, value } = e.target;
@@ -97,7 +123,7 @@ const UserPage = () => {
       <div className="container">
         <h1>Registro de nuevos técnicos</h1>
         <hr />
-        <div>
+        <div className="container">
           <button
             onClick={() => {
               handleDialogVisible();
@@ -120,63 +146,95 @@ const UserPage = () => {
               Nuevo Usuario
             </b>
           </button>
+          <div className="buscador">
+            <InputText
+              id="searchUser"
+              value={search}
+              placeholder="Buscar.."
+              onChange={handleSearch}
+            />
+          </div>
+          {/*<Search urlSolicitud="http://localhost:9000/apiscrv/user/listUser" />*/}
         </div>
+
         <br />
 
-        <Table className="container md">
-          <thead className="text-center text-bold">
-            <tr>
-              <td>Id</td>
-              <td>Nombre</td>
-              <td>Teléfono</td>
-              <td>Usuario</td>
-              <td>Contraseña</td>
-              <td>Sede</td>
-              <td>Rol</td>
-            </tr>
-          </thead>
-          <tbody>
-            {dataUser.map((usuario) => (
-              <tr key={usuario.id}>
-                <td>{usuario.id}</td>
-                <td>{usuario.userName}</td>
-                <td>{usuario.userTelephone}</td>
-                <td>{usuario.user}</td>
-                <td>{usuario.pass}</td>
-                <td>{usuario.sede}</td>
-                <td>{usuario.role}</td>
-
-                <td width="10%">
-                  <ButtonB
-                    className=" mb-1 mt-1"
-                    variant="warning"
-                    onClick={() => selectUser(usuario, "Editar")}
-                  >
-                    <i className="pi pi-pencil" width="20%"></i>
-                  </ButtonB>{" "}
-                  <ButtonB
-                    className=" mb-1 mt-1"
-                    variant="danger"
-                    onClick={() => selectUser(usuario, "Eliminar")}
-                  >
-                    <i className="pi pi-trash" width="20%"></i>
-                  </ButtonB>
-                </td>
+        {/** -- Script para recorrer las listas y mostrar la tabla de Usuarios ---*/}
+        <div>
+          <Table
+            responsive
+            striped
+            bordered
+            hover
+            size="sm"
+            className="container"
+          >
+            <thead className="text-center text-bold">
+              <tr>
+                <td>Id</td>
+                <td>Nombre</td>
+                <td>Teléfono</td>
+                <td>Usuario</td>
+                <td>Contraseña</td>
+                <td>Sede</td>
+                <td>Rol</td>
+                <td>Acción</td>
               </tr>
-            ))}
-          </tbody>
-        </Table>
+            </thead>
+            <tbody>
+              {dataUser.map((usuario) => (
+                <tr key={usuario.id}>
+                  <td>{usuario.id}</td>
+                  <td>{usuario.userName}</td>
+                  <td>{usuario.userTelephone}</td>
+                  <td>{usuario.user}</td>
+                  <td>{usuario.pass}</td>
+                  <td>{usuario.sede}</td>
+                  <td>{usuario.role}</td>
+
+                  <td
+                    style={{ minWidth: "100px" }}
+                    width="10%"
+                    className="text-center"
+                  >
+                    <ButtonB
+                      className=" mb-1 mt-1"
+                      variant="warning"
+                      onClick={() => selectUser(usuario, "Editar")}
+                    >
+                      <i className="pi pi-pencil" width="20%"></i>
+                    </ButtonB>{" "}
+                    <ButtonB
+                      className=" mb-1 mt-1"
+                      variant="danger"
+                      onClick={() => selectUser(usuario, "Eliminar")}
+                    >
+                      <i className="pi pi-trash" width="20%"></i>
+                    </ButtonB>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </Table>
+        </div>
       </div>
 
-      {/** ------------------ Ventana para agregar proveedor nuevo ---------------*/}
+      {/** ------------------ Ventana para agregar un Usuario nuevo ---------------*/}
       <div>
         <Dialog
-          header="Agregar un nuevo técnico"
+          header={
+            <FontAwesomeIcon
+              fontSize="55px"
+              style={{ margin: "10px 5px 0px 44%", fontSize: "60px" }}
+              title="Iglesias"
+              icon={faUserPlus}
+            />
+          }
           visible={menuVisible}
           style={{ width: "400px", fontSize: "12px" }}
           modal={true}
           onHide={() => setmenuVisible(false)}
-          footer={renderFooter("displayBasic")}
+          footer={<Footer accion="Agregar Usuario" />}
         >
           <div>
             {/*<span className="p-float-label mt-2">
@@ -319,28 +377,24 @@ const UserPage = () => {
         </Dialog>
       </div>
 
-      {/* ------------------ Ventana para editar un prodcuto ---------------*/}
+      {/* ------------------ Ventana para editar un Usuario existente ---------------*/}
 
       <Dialog
-        header="Editar técnico"
+        header={
+          <FontAwesomeIcon
+            fontSize="55px"
+            style={{ margin: "10px 5px 0px 44%", fontSize: "60px" }}
+            title="Iglesias"
+            icon={faUserPlus}
+          />
+        }
         visible={editarVisible}
         style={{ width: "400px", fontSize: "12px" }}
         modal={true}
         onHide={() => setEditarVisible(false)}
-        footer={renderFooter("displayBasic")}
+        footer={<Footer accion="Editar Usuario" />}
       >
         <div>
-          {/*<span className="p-float-label mt-2">
-            <InputText
-              className="container"
-              id="id"
-              disabled
-              value={insertSuplier && insertSuplier.id}
-              onChange={capturaInput}
-            />
-            <label htmlFor="id">Id</label>
-    </span>*/}
-
           <span className="p-float-label mt-4">
             <InputText
               disabled
@@ -455,17 +509,16 @@ const UserPage = () => {
         </div>
       </Dialog>
 
-
-      {/* ------------------ Ventana para confirmar al eliminar ---------------*/}
+      {/* ------------------ Ventana para confirmar al eliminar un Usuario ---------------*/}
 
       <Dialog
         className="text-center"
-        header="Eliminar Usuarios"
+        header=""
         visible={deleteVisible}
         style={{ width: "400px", fontSize: "12px" }}
         modal={true}
-        onHide={() => setEditarVisible(false)}
-        footer={renderFooter("displayBasic")}
+        onHide={() => setDeleteVisible(false)}
+        footer={<Footer accion="Eliminar Usuario" />}
       >
         <h5>
           ¿Deseas eliminar este usuario{" "}
@@ -480,14 +533,6 @@ const UserPage = () => {
             }}
           >
             Aceptar
-          </ButtonB>
-          <ButtonB
-            color="secondary"
-            onClick={() => {
-              handleDialogEliminar();
-            }}
-          >
-            Cancelar
           </ButtonB>
         </div>
       </Dialog>

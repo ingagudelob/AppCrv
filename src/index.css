@@ -77,3 +77,14 @@ code {
   to {transform: rotate(360deg);}
 }
 
+.buscador{
+  padding-top: 10px;
+  font-size: 15px;
+  float: right;
+}
+
+@media (max-width: 500px) {
+  .buscador {
+    float: none;
+  }
+}
