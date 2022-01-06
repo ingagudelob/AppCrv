@@ -161,14 +161,15 @@ const UserPage = () => {
 
         {/** -- Script para recorrer las listas y mostrar la tabla de Usuarios ---*/}
         <div>
-          <Table
-            responsive
-            striped
-            bordered
-            hover
-            size="sm"
-            className="container"
-          >
+        <Table
+          responsive
+          striped
+          bordered
+          hover
+          variant="primary"
+          size="sm"
+          className="container"
+        >
             <thead className="text-center text-bold">
               <tr>
                 <td>Id</td>

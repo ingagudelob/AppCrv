@@ -16,7 +16,8 @@ const URLBasic = "http://localhost:9000/apiscrv/iglesias/";
 const IglesiasPage = () => {
   const [dataIglesia, setDataIglesia] = useState([]);
   const [addData, setAddData] = useState([]);
-  //const [tablaBuscar, setTablaBuscar] = useState([]);
+  const [tablaBuscar, setTablaBuscar] = useState([]);
+  const [search, setSearch] = useState("")
   const [menuVisible, setmenuVisible] = useState(false);
   const [deleteVisible, setDeleteVisible] = useState(false);
   const [editarVisible, setEditarVisible] = useState(false);
@@ -27,7 +28,7 @@ const IglesiasPage = () => {
   const getAllUser = async () => {
     await axios.get(URLBasic + "listIglesias").then((response) => {
       setDataIglesia(response.data);
-      //setTablaBuscar(response.data);
+      setTablaBuscar(response.data);
     });
   };
 
@@ -57,6 +58,27 @@ const IglesiasPage = () => {
     getAllUser();
   };
 
+  // Metodo para buscar una Iglesia
+
+  const handleSearch = (e) => {
+    setSearch(e.target.value);
+    searchFilter(e.target.value);
+};
+
+const searchFilter = (iglesiaBuscada) =>{
+    let resBusqueda = tablaBuscar.filter((iglesia)=>{
+        if(
+            iglesia.nombreIglesia
+            .toString()
+            .toLowerCase()
+            .includes(iglesiaBuscada.toLowerCase())
+        ){
+            return iglesia;
+        }
+    });
+    setDataIglesia(resBusqueda);
+}
+
   const selectUser = (iglesia, accion) => {
     setInsertIglesia(iglesia);
     if (accion === "Editar") {
@@ -78,7 +100,6 @@ const IglesiasPage = () => {
 
   const capturaInput = (e) => {
     const { id, value } = e.target;
-    console.log(e.target.value);
     setInsertIglesia((prevState) => ({
       ...prevState,
       [id]: value,
@@ -103,9 +124,9 @@ const IglesiasPage = () => {
       <div className="container">
         <h1>Registro de nuevas Sedes</h1>
         <hr />
-        <div>
+        <div className="container">
           <button
-            onClick={() => {
+              onClick={() => {
               handleDialogVisible();
             }}
             type="button"
@@ -126,38 +147,43 @@ const IglesiasPage = () => {
               Nueva Iglesia
             </b>
           </button>
+          <div className="buscador">
+            <InputText 
+                value={search}
+                placeholder="Buscar..."
+                onChange={handleSearch}
+             />
+          </div>
         </div>
         <br />
 
-        <Table responsive striped bordered hover size="sm" className="container">
+        <Table
+          responsive
+          striped
+          bordered
+          hover
+          variant="primary"
+          size="sm"
+          className="container"
+        >
           <thead className="text-center text-bold">
             <tr>
               <td>Codigo</td>
-              <td style={{minWidth: "150px"}}>Nombre</td>
-              <td>Frecuencia</td>
-              <td>Tipo</td>
-              <td>Potencia</td>
+              <td style={{minWidth: "150px"}}>Nombre de sede</td>
+              <td>Pastor de sede</td>
               <td>Ciudad</td>
-              <td>Transmisor Ppal</td>
-              <td>Transmisor Aux</td>
               <td>Planta Electrica</td>
-              <td>Estudios</td>
               <td>Acción</td>
             </tr>
           </thead>
           <tbody>
             {dataIglesia.map((iglesia) => (
               <tr key={iglesia.id}>
-                <td>{iglesia.id}</td>
+                <td>{iglesia.prefID+iglesia.id}</td>
                 <td>{iglesia.nombreIglesia}</td>
-                <td>{iglesia.frecuenciaEmisora}</td>
-                <td>{iglesia.tipoEmisora}</td>
-                <td>{iglesia.potenciaEmisora}</td>
-                <td>{iglesia.ciudadEmisora}</td>
-                <td>{iglesia.txPrincipal}</td>
-                <td>{iglesia.txAuxiliar}</td>
+                <td>{iglesia.pastorIglesia}</td>
+                <td>{iglesia.ciudadIglesia}</td>
                 <td>{iglesia.plantaElectrica}</td>
-                <td>{iglesia.estudios ? "Si" : "No"}</td>
 
                 <td  
                     style={{minWidth: "100px"}} 
@@ -214,7 +240,7 @@ const IglesiasPage = () => {
             <span className="p-float-label mt-3">
               <InputText
                 required
-                placeholder="Nombre"
+                placeholder="Sede"
                 className="container"
                 id="nombreIglesia"
                 onChange={capturaInput}
@@ -224,29 +250,9 @@ const IglesiasPage = () => {
             <span className="p-float-label mt-3">
               <InputText
                 required
-                placeholder="Frecuencia"
+                placeholder="Pastor de Sede"
                 className="container"
-                id="frecuenciaEmisora"
-                onChange={capturaInput}
-              />
-            </span>
-
-            <span className="p-float-label mt-3">
-              <InputText
-                required
-                placeholder="Tipo (FM - AM)"
-                className="container"
-                id="tipoEmisora"
-                onChange={capturaInput}
-              />
-            </span>
-
-            <span className="p-float-label mt-3">
-              <InputText
-                required
-                placeholder="Potencia"
-                className="container"
-                id="potenciaEmisora"
+                id="pastorIglesia"
                 onChange={capturaInput}
               />
             </span>
@@ -256,27 +262,7 @@ const IglesiasPage = () => {
                 required
                 placeholder="Ciudad"
                 className="container"
-                id="ciudadEmisora"
-                onChange={capturaInput}
-              />
-            </span>
-
-            <span className="p-float-label mt-3">
-              <InputText
-                required
-                placeholder="Tx principal"
-                className="container"
-                id="txPrincipal"
-                onChange={capturaInput}
-              />
-            </span>
-
-            <span className="p-float-label mt-3">
-              <InputText
-                required
-                placeholder="Tx Auxiliar"
-                className="container"
-                id="txAuxiliar"
+                id="ciudadIglesia"
                 onChange={capturaInput}
               />
             </span>
@@ -290,64 +276,6 @@ const IglesiasPage = () => {
                 onChange={capturaInput}
               />
             </span>
-
-            {/*
-                <div className="p-field-checkbox mt-2">
-                  <Checkbox
-                    inputId="binary"
-                    checked={onCheck}
-                    onChange={(e) => {
-                      setInChecked("admin");
-                      setOnCheck(!onCheck);
-                      capturaInput();
-                    }}
-                    id="role"
-                    value={inChecked}
-                  />
-                  <label style={{ paddingLeft: "10px" }} htmlFor="binary">
-                    Admin
-                  </label>
-                </div>*/}
-
-            <div className="mt-2">
-              <div style={{ paddingTop: "10px" }}>
-                <Form>
-                  <p className="mx-1">Estudios: </p>
-                  <div className="mx-1">
-                    <Form.Check
-                      inline
-                      label="Si"
-                      name="estudioAdd"
-                      type="radio"
-                      id="estudios"
-                      value="true"
-                      onChange={(evento) => {
-                        const { id, value } = evento.target;
-                        setInsertIglesia((prevState) => ({
-                          ...prevState,
-                          [id]: value,
-                        }));
-                      }}
-                    />
-                    <Form.Check
-                      inline
-                      label="No"
-                      name="estudioAdd"
-                      type="radio"
-                      id="estudios"
-                      value="false"
-                      onChange={(evento) => {
-                        const { id, value } = evento.target;
-                        setInsertIglesia((prevState) => ({
-                          ...prevState,
-                          [id]: value,
-                        }));
-                      }}
-                    />
-                  </div>
-                </Form>
-              </div>
-            </div>
           </div>
 
           <div className="">
@@ -383,7 +311,7 @@ const IglesiasPage = () => {
               disabled
               className="container"
               id="id"
-              value={insertIglesia.id}
+              value={insertIglesia.prefID+insertIglesia.id}
               onChange={capturaInput}
             />
             <label htmlFor="user">Identificación</label>
@@ -392,10 +320,9 @@ const IglesiasPage = () => {
           <span className="p-float-label mt-4">
             <InputText
               className="container"
-              id="nombreEmisora"
-              value={insertIglesia && insertIglesia.nombreEmisora}
+              id="nombreIglesia"
+              value={insertIglesia && insertIglesia.nombreIglesia}
               onChange={(e) => {
-                console.log(e.target.value);
                 const { id, value } = e.target;
                 setInsertIglesia((prevState) => ({
                   ...prevState,
@@ -403,67 +330,27 @@ const IglesiasPage = () => {
                 }));
               }}
             />
-            <label htmlFor="user">Nombre</label>
+            <label htmlFor="user">Sede</label>
           </span>
 
           <span className="p-float-label mt-4">
             <InputText
               className="container"
-              id="frecuenciaEmisora"
-              value={insertIglesia && insertIglesia.frecuenciaEmisora}
+              id="pastorIglesia"
+              value={insertIglesia && insertIglesia.pastorIglesia}
               onChange={capturaInput}
             />
-            <label htmlFor="user">Frecuencia</label>
+            <label htmlFor="user">Pastor de sede</label>
           </span>
 
           <span className="p-float-label mt-4">
             <InputText
               className="container"
-              id="tipoEmisora"
-              value={insertIglesia && insertIglesia.tipoEmisora}
-              onChange={capturaInput}
-            />
-            <label htmlFor="user">Tipo (AM - FM)</label>
-          </span>
-
-          <span className="p-float-label mt-4">
-            <InputText
-              className="container"
-              id="potenciaEmisora"
-              value={insertIglesia && insertIglesia.potenciaEmisora}
-              onChange={capturaInput}
-            />
-            <label htmlFor="user">Potencia</label>
-          </span>
-
-          <span className="p-float-label mt-4">
-            <InputText
-              className="container"
-              id="ciudadEmisora"
-              value={insertIglesia && insertIglesia.ciudadEmisora}
+              id="ciudadIglesia"
+              value={insertIglesia && insertIglesia.ciudadIglesia}
               onChange={capturaInput}
             />
             <label htmlFor="user">Ciudad</label>
-          </span>
-
-          <span className="p-float-label mt-4">
-            <InputText
-              className="container"
-              id="txPrincipal"
-              value={insertIglesia && insertIglesia.txPrincipal}
-              onChange={capturaInput}
-            />
-            <label htmlFor="user">Tx Principal</label>
-          </span>
-
-          <span className="p-float-label mt-4">
-            <InputText
-              className="container"
-              id="txAuxiliar"
-              value={insertIglesia && insertIglesia.txAuxiliar}
-              onChange={capturaInput}
-            />
-            <label htmlFor="user">Tx Auxiliar</label>
           </span>
 
           <span className="p-float-label mt-4">
@@ -476,43 +363,7 @@ const IglesiasPage = () => {
             <label htmlFor="user">Planta Electrica</label>
           </span>
 
-          <div style={{ paddingTop: "10px" }}>
-            <Form>
-              <p className="mx-1">Estudios: </p>
-              <div className="mx-1">
-                <Form.Check
-                  inline
-                  label="Si"
-                  name="group1"
-                  type="radio"
-                  id="estudios"
-                  value="true"
-                  onChange={(evento) => {
-                    const { id, value } = evento.target;
-                    setInsertIglesia((prevState) => ({
-                      ...prevState,
-                      [id]: value,
-                    }));
-                  }}
-                />
-                <Form.Check
-                  inline
-                  label="No"
-                  name="group1"
-                  type="radio"
-                  id="estudios"
-                  value="false"
-                  onChange={(evento) => {
-                    const { id, value } = evento.target;
-                    setInsertIglesia((prevState) => ({
-                      ...prevState,
-                      [id]: value,
-                    }));
-                  }}
-                />
-              </div>
-            </Form>
-          </div>
+          
         </div>
 
         <div className="container">

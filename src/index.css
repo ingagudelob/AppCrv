@@ -83,6 +83,29 @@ code {
   float: right;
 }
 
+.footer-grl{
+  background-color: black;
+  left: 0;
+  bottom: 0;
+  color: white;
+  padding: 10px 0px 1px 0px;
+  position: relative;
+  width: 100%;
+
+}
+
+.text-footer{
+  font-family: "Nunito", Sans-serif;
+  font-size: 11px;
+}
+
+.text-footer-ligth{
+  font-family: "Nunito", Sans-serif;
+  font-size: 11px;
+}
+
+
+
 @media (max-width: 500px) {
   .buscador {
     float: none;

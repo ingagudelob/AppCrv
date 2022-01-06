@@ -10,6 +10,7 @@ import ButtonB from "react-bootstrap/Button";
 import "./cssPage/cssPages.css";
 import Form from "react-bootstrap/Form";
 import Footer from "../../footers/Footer";
+import FooterPage from "../../footers/FooterPage";
 
 const URLBasic = "http://localhost:9000/apiscrv/emisoras/";
 
@@ -122,7 +123,7 @@ const EmisorasPage = () => {
 
   return (
     <>
-      <div className="container">
+      <div className="container " style={{}}>
         <h1>Registro de nuevas emisoras</h1>
         <hr />
         <div className="container">
@@ -613,6 +614,9 @@ const EmisorasPage = () => {
           </ButtonB>
         </div>
       </Dialog>
+
+      {/**--------------------------- FooterPage -------------------------- */}
+      <FooterPage className="footer-component"/>
     </>
   );
 };
