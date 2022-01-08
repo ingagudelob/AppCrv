@@ -6,6 +6,7 @@ import {
 import EmisorasPage from "../components/pages/emisoras/EmisorasPage";
 import HomePage from "../components/pages/HomePage";
 import IglesiasPage from "../components/pages/iglesias/IglesiasPage";
+import DetailEmisoras from "../components/pages/informes/DetailEmisoras";
 import NewFormPage from "../components/pages/informes/NewFormPage";
 import InformesPage from "../components/pages/InformesPage";
 import LoginPage from "../components/pages/logins/LoginPage";
@@ -22,6 +23,7 @@ const AppRouter = (props) => {
         <Route exact path="/" component={HomePage}></Route>
         <Route exact path="/loginPage" component={LoginPage}></Route>
         <Route exact path="/nuevoInforme" component={NewFormPage}></Route>
+        <Route exact path="/nuevoInforme/:id" component={DetailEmisoras}></Route>
         <Route exact path="/listarInformes" component={InformesPage}></Route>
         <Route exact path="/users" component={UserPage}></Route>
         <Route exact path="/emisoras" component={EmisorasPage}></Route>

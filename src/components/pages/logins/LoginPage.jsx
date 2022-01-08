@@ -3,15 +3,11 @@ import { Dialog } from 'primereact/dialog';
 import { useState } from 'react';
 import Card from 'react-bootstrap/Card'
 import { Button } from 'primereact/button';
-import { useEffect, useContext } from 'react';
-import UserContext from '../../../contexts/users/UserContext';
+import { useEffect } from 'react';
+
 
 const LoginPage = () => {
 
-    const loginIn = useContext(UserContext);
-
-    console.log(loginIn)
-    
     const [texto, setTexto] = useState("")
     const [visible, setVisible] = useState(true);
     const [email, setEmail] = useState("")
@@ -106,4 +102,4 @@ useEffect(()=> {
     )
 }
 
-export default LoginPage
+export default LoginPage;

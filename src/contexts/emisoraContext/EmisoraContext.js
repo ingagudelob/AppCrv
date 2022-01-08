@@ -1,5 +1,5 @@
 import { createContext } from "react";
 
-const emisorasContext = createContext("emisora");
+const EmisorasContext = createContext("emisora");
 
-export default emisorasContext;
+export default EmisorasContext;

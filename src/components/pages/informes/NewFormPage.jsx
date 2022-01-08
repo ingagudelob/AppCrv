@@ -1,23 +1,30 @@
-import { useContext } from "react"
-import EmisorasContext from "../../../contexts/emisoraContext/EmisoraContext"
+// Para poder suscribirme al contexto debo importar el hook de react, useContext
+
+import { useEffect } from "react";
+import { useContext } from "react";
+import EmisorasContext from "../../../contexts/emisoraContext/EmisoraContext";
 
 const NewFormPage = () => {
-    
-    const myContextBroadcast = useContext(EmisorasContext);
+  //const myContextBroadcast = useContext(EmisorasContext);
 
-    return (
-        <div>
-            <h1>Nuevo informe</h1>
-           
-            {myContextBroadcast.map((emisora) => (
-              <ul key={emisora.id}>
-                <li>{emisora.id}</li>
-                <li>{emisora.nombreEmisora}</li>
-                <li>{emisora.frecuenciaEmisora}</li>
-              </ul>
-            ))}
-        </div>
-    )
-}
+  const { getAllEmisoras, emisora } = useContext(EmisorasContext);
 
-export default NewFormPage
+  useEffect(() => {
+    getAllEmisoras().catch(null);
+  }, []);
+
+  return (
+    <div>
+      <h1>Nuevo informe</h1>
+
+      {emisora.map((emisora, index) => (
+        <ul key={index}>
+          <li>{emisora.name}</li>
+          <button>Ver detalles</button>
+        </ul>
+      ))}
+    </div>
+  );
+};
+
+export default NewFormPage;
