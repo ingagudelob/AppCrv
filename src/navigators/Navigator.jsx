@@ -22,8 +22,8 @@ const Navigator = () => {
       <Navbar
         collapseOnSelect
         expand="lg"
-        variant="light"
-        bg="light"
+        variant="dark"
+        bg="secondary"
         
       >
         <Navbar.Brand as={NavLink} to="/" className="mx-4">
@@ -48,7 +48,7 @@ const Navigator = () => {
               id="basic-nav-dropdown"
               className="item-menu"
             >
-              <NavDropdown.Item as={NavLink} to="/clientesHook">
+              <NavDropdown.Item as={NavLink} to="/nuevoInforme">
                 <FontAwesomeIcon
                   className="icon-menu"
                   style={{ margin: "0px 10px 0px 0px" }}

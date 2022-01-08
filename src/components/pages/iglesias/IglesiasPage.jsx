@@ -7,9 +7,9 @@ import { Dialog } from "primereact/dialog";
 import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
 import ButtonB from "react-bootstrap/Button";
-import "./cssPage/cssPages.css";
-import Form from "react-bootstrap/Form";
-import Footer from "../../footers/Footer";
+import "../cssPage/cssPages.css";
+import Footer from "../../../footers/Footer";
+import FooterPage from "../../../footers/FooterPage";
 
 const URLBasic = "http://localhost:9000/apiscrv/iglesias/";
 
@@ -17,7 +17,7 @@ const IglesiasPage = () => {
   const [dataIglesia, setDataIglesia] = useState([]);
   const [addData, setAddData] = useState([]);
   const [tablaBuscar, setTablaBuscar] = useState([]);
-  const [search, setSearch] = useState("")
+  const [search, setSearch] = useState("");
   const [menuVisible, setmenuVisible] = useState(false);
   const [deleteVisible, setDeleteVisible] = useState(false);
   const [editarVisible, setEditarVisible] = useState(false);
@@ -63,21 +63,22 @@ const IglesiasPage = () => {
   const handleSearch = (e) => {
     setSearch(e.target.value);
     searchFilter(e.target.value);
-};
+  };
 
-const searchFilter = (iglesiaBuscada) =>{
-    let resBusqueda = tablaBuscar.filter((iglesia)=>{
-        if(
-            iglesia.nombreIglesia
+  const searchFilter = (iglesiaBuscada) => {
+    if (tablaBuscar?.length) {
+      let resBusqueda = tablaBuscar.filter((iglesia) => {
+        if (
+          iglesia.nombreIglesia
             .toString()
             .toLowerCase()
             .includes(iglesiaBuscada.toLowerCase())
-        ){
-            return iglesia;
-        }
-    });
-    setDataIglesia(resBusqueda);
-}
+        )
+          return iglesia;
+      });
+      setDataIglesia(resBusqueda);
+    }
+  };
 
   const selectUser = (iglesia, accion) => {
     setInsertIglesia(iglesia);
@@ -126,7 +127,7 @@ const searchFilter = (iglesiaBuscada) =>{
         <hr />
         <div className="container">
           <button
-              onClick={() => {
+            onClick={() => {
               handleDialogVisible();
             }}
             type="button"
@@ -148,11 +149,11 @@ const searchFilter = (iglesiaBuscada) =>{
             </b>
           </button>
           <div className="buscador">
-            <InputText 
-                value={search}
-                placeholder="Buscar..."
-                onChange={handleSearch}
-             />
+            <InputText
+              value={search}
+              placeholder="Buscar..."
+              onChange={handleSearch}
+            />
           </div>
         </div>
         <br />
@@ -166,10 +167,11 @@ const searchFilter = (iglesiaBuscada) =>{
           size="sm"
           className="container"
         >
+
           <thead className="text-center text-bold">
             <tr>
               <td>Codigo</td>
-              <td style={{minWidth: "150px"}}>Nombre de sede</td>
+              <td style={{ minWidth: "150px" }}>Nombre de sede</td>
               <td>Pastor de sede</td>
               <td>Ciudad</td>
               <td>Planta Electrica</td>
@@ -177,19 +179,20 @@ const searchFilter = (iglesiaBuscada) =>{
             </tr>
           </thead>
           <tbody>
-            {dataIglesia.map((iglesia) => (
+            {!dataIglesia?.length && <tr><td colSpan="6"> No existen resultados</td></tr>}
+            {dataIglesia?.map((iglesia) => (
               <tr key={iglesia.id}>
-                <td>{iglesia.prefID+iglesia.id}</td>
+                <td>{iglesia.prefID + iglesia.id}</td>
                 <td>{iglesia.nombreIglesia}</td>
                 <td>{iglesia.pastorIglesia}</td>
                 <td>{iglesia.ciudadIglesia}</td>
                 <td>{iglesia.plantaElectrica}</td>
 
-                <td  
-                    style={{minWidth: "100px"}} 
-                    width="10%"
-                    className="text-center"
-                    >
+                <td
+                  style={{ minWidth: "100px" }}
+                  width="10%"
+                  className="text-center"
+                >
                   <ButtonB
                     className="mb-1 mt-1"
                     variant="warning"
@@ -214,12 +217,19 @@ const searchFilter = (iglesiaBuscada) =>{
       {/** ------------------ Ventana para agregar una sede nueva ---------------*/}
       <div>
         <Dialog
-          header={<FontAwesomeIcon  fontSize="55px"  style={{margin: "10px 5px 0px 44%", fontSize: "60px"}}  title="Iglesias" icon={faPlaceOfWorship} />}
+          header={
+            <FontAwesomeIcon
+              fontSize="55px"
+              style={{ margin: "10px 5px 0px 44%", fontSize: "60px" }}
+              title="Iglesias"
+              icon={faPlaceOfWorship}
+            />
+          }
           visible={menuVisible}
           style={{ width: "400px", fontSize: "12px" }}
           modal={true}
           onHide={() => setmenuVisible(false)}
-          footer={<Footer accion="Nueva Sede"/>}
+          footer={<Footer accion="Nueva Sede" />}
         >
           <div>
             {/*<span className="p-float-label mt-2">
@@ -296,22 +306,27 @@ const searchFilter = (iglesiaBuscada) =>{
       {/* ------------------ Ventana para editar una Sede ---------------*/}
 
       <Dialog
-        header={<FontAwesomeIcon  fontSize="55px"  style={{margin: "10px 5px 0px 44%", fontSize: "60px"}}  title="Iglesias" icon={faPlaceOfWorship} />}
+        header={
+          <FontAwesomeIcon
+            fontSize="55px"
+            style={{ margin: "10px 5px 0px 44%", fontSize: "60px" }}
+            title="Iglesias"
+            icon={faPlaceOfWorship}
+          />
+        }
         visible={editarVisible}
-        style={{width: "400px", fontSize: "12px" }}
+        style={{ width: "400px", fontSize: "12px" }}
         modal={true}
         onHide={() => setEditarVisible(false)}
-        footer={<Footer accion="Editar Sede"/>}
-        
+        footer={<Footer accion="Editar Sede" />}
       >
         <div>
-
           <span className="p-float-label mt-4">
             <InputText
               disabled
               className="container"
               id="id"
-              value={insertIglesia.prefID+insertIglesia.id}
+              value={insertIglesia.prefID + insertIglesia.id}
               onChange={capturaInput}
             />
             <label htmlFor="user">Identificación</label>
@@ -362,8 +377,6 @@ const searchFilter = (iglesiaBuscada) =>{
             />
             <label htmlFor="user">Planta Electrica</label>
           </span>
-
-          
         </div>
 
         <div className="container">
@@ -406,6 +419,9 @@ const searchFilter = (iglesiaBuscada) =>{
           </ButtonB>
         </div>
       </Dialog>
+
+      {/**--------------------------- FooterPage -------------------------- */}
+      <FooterPage className="footer-component" />
     </>
   );
 };

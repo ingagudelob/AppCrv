@@ -1,11 +1,17 @@
-import LoginPage from './components/pages/LoginPage'
+import LoginPage from './components/pages/logins/LoginPage.jsx'
+import EmisoraProvider from './contexts/emisoraContext/EmisoraProvider.js';
+import UserProvider from './contexts/users/UserProvider.js';
 import AppRouter from './Routers/AppRouter';
 
 function App() {
   return (
     <div>
       {/*<LoginPage/>*/}
-      <AppRouter/>
+      <UserProvider>
+        <EmisoraProvider>
+          <AppRouter/>
+        </EmisoraProvider>
+      </UserProvider>
     </div>
 
   );

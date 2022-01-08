@@ -7,9 +7,10 @@ import { Dialog } from "primereact/dialog";
 import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
 import ButtonB from "react-bootstrap/Button";
-import "./cssPage/cssPages.css";
+import "../cssPage/cssPages.css";
 import Form from "react-bootstrap/Form";
-import Footer from "../../footers/Footer";
+import Footer from "../../../footers/Footer";
+import FooterPage from "../../../footers/FooterPage";
 
 const URLBasic = "http://localhost:9000/apiscrv/user/";
 
@@ -70,16 +71,15 @@ const UserPage = () => {
   };
 
   const searchFilter = (usuarioBuscado) => {
-    var resBusqueda = tablaBuscar.filter((usuario) => {
+    var resBusqueda = tablaBuscar.filter((usuario, ) => {
       
       if (
         usuario.userName
           .toString()
           .toLowerCase()
           .includes(usuarioBuscado.toLowerCase())
-      ) {
-        return usuario;
-      }
+      ) return usuario;
+
     });
     setDataUser(resBusqueda);
   };
@@ -183,6 +183,7 @@ const UserPage = () => {
               </tr>
             </thead>
             <tbody>
+              {!dataUser?.length && <tr><td colSpan="8"> No existen resultados</td></tr>}
               {dataUser.map((usuario) => (
                 <tr key={usuario.id}>
                   <td>{usuario.id}</td>
@@ -537,6 +538,9 @@ const UserPage = () => {
           </ButtonB>
         </div>
       </Dialog>
+      
+      {/**--------------------------- FooterPage -------------------------- */}
+      <FooterPage className="footer-component"/>
     </>
   );
 };

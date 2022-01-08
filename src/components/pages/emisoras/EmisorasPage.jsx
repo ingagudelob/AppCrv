@@ -7,10 +7,10 @@ import { Dialog } from "primereact/dialog";
 import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
 import ButtonB from "react-bootstrap/Button";
-import "./cssPage/cssPages.css";
+import "../cssPage/cssPages.css";
 import Form from "react-bootstrap/Form";
-import Footer from "../../footers/Footer";
-import FooterPage from "../../footers/FooterPage";
+import Footer from "../../../footers/Footer";
+import FooterPage from "../../../footers/FooterPage";
 
 const URLBasic = "http://localhost:9000/apiscrv/emisoras/";
 
@@ -27,10 +27,26 @@ const EmisorasPage = () => {
   /** Peticion de lectura de emisoras */
 
   const getAllUser = async () => {
-    await axios.get(URLBasic + "listEmisoras").then((response) => {
-      setDataEmisora(response.data);
-      setTablaBuscar(response.data);
-    });
+
+    /**
+     * 
+     await axios.get(URLBasic + "listEmisoras").then((response) => {
+       setDataEmisora(response.data);
+       setTablaBuscar(response.data);
+      });
+       const {data} = await axios.get(URLBasic + "listEmisoras");
+       setDataEmisora(data);
+       setTablaBuscar(data);
+     
+     */
+     try{
+      await axios.get(URLBasic + "listEmisoras").then((response) => {
+        setDataEmisora(response.data);
+        setTablaBuscar(response.data);
+      });
+     }catch(err) {
+        console.error("err");
+     }
   };
 
   // Creamos la petición post
@@ -73,9 +89,9 @@ const EmisorasPage = () => {
                 .toString()
                 .toLowerCase()
                 .includes(emisoraBuscada.toLowerCase())
-            ){
+            )
                 return emisora;
-            }
+            
         });
         setDataEmisora(resBusqueda);
   }
@@ -184,6 +200,7 @@ const EmisorasPage = () => {
             </tr>
           </thead>
           <tbody>
+            {!dataEmisora?.length && <tr><td colSpan="11"> No existen resultados</td></tr>}
             {dataEmisora.map((emisora) => (
               <tr key={emisora.id}>
                 <td>{emisora.id}</td>
