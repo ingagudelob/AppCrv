@@ -1,7 +1,6 @@
 // Este componente va a ser compartido en toda la app q solicite este contexto
 
-import axios from "axios";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import EmisorasContext from "./EmisoraContext";
 import ApiEmisoras from "../../apis/ApiEmisoras";
 
@@ -30,6 +29,7 @@ const EmisoraProvider = ({ children }) => {
 
   */
   const [emisora, setEmisora] = useState([]);
+  const [informesDetail, setInformesDetail] = useState([]);
 
   const getAllEmisoras = async () =>{
 
@@ -47,10 +47,22 @@ const EmisoraProvider = ({ children }) => {
     }
   };
 
+  const getAllIformesDetail = async (id)=>{
+    if(!id) Promise.reject("No existe el id");
+    try {
+      const informesResult = await ApiEmisoras ({url: `https://pokeapi.co/api/v2/pokemon/${id}`}); 
+      setInformesDetail(informesResult);
+    } catch (error) {
+      Promise.reject(error);
+      setInformesDetail([]);
+      
+    }
+  }
+
   // Como quiero compartir el metodo y  el resultado los paso en el value del privider
 
   return (
-    <EmisorasContext.Provider value={{getAllEmisoras, emisora}}>
+    <EmisorasContext.Provider value={{getAllEmisoras, emisora, getAllIformesDetail, informesDetail}}>
       {children}
     </EmisorasContext.Provider>
   );
