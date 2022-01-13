@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Table } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBroadcastTower } from "@fortawesome/free-solid-svg-icons";
@@ -11,10 +11,13 @@ import "../cssPage/cssPages.css";
 import Form from "react-bootstrap/Form";
 import Footer from "../../../footers/Footer";
 import FooterPage from "../../../footers/FooterPage";
+import { useQuery } from "react-query";
 
 const URLBasic = "http://localhost:9000/apiscrv/emisoras/";
 
 const EmisorasPage = () => {
+  // ---------------------- Creacion de variables de estados ----------------------
+
   const [dataEmisora, setDataEmisora] = useState([]);
   const [addData, setAddData] = useState([]);
   const [tablaBuscar, setTablaBuscar] = useState([]);
@@ -27,7 +30,6 @@ const EmisorasPage = () => {
   /** Peticion de lectura de emisoras */
 
   const getAllUser = async () => {
-
     /**
      * 
      await axios.get(URLBasic + "listEmisoras").then((response) => {
@@ -39,14 +41,14 @@ const EmisorasPage = () => {
        setTablaBuscar(data);
      
      */
-     try{
+    try {
       await axios.get(URLBasic + "listEmisoras").then((response) => {
         setDataEmisora(response.data);
         setTablaBuscar(response.data);
       });
-     }catch(err) {
-        console.error("err");
-     }
+    } catch (err) {
+      console.error("err");
+    }
   };
 
   // Creamos la petición post
@@ -78,24 +80,23 @@ const EmisorasPage = () => {
   // Metodo para buscar una emisora
 
   const handleSearch = (e) => {
-        setSearch(e.target.value);
-        searchFilter(e.target.value);
+    setSearch(e.target.value);
+    searchFilter(e.target.value);
   };
 
-  const searchFilter = (emisoraBuscada) =>{
-        let resBusqueda = tablaBuscar.filter((emisora)=>{
-            if(
-                emisora.nombreEmisora
-                .toString()
-                .toLowerCase()
-                .includes(emisoraBuscada.toLowerCase())
-            )
-                return emisora;
-            
-        });
-        setDataEmisora(resBusqueda);
-  }
-
+  const searchFilter = (emisoraBuscada) => {
+    // eslint-disable-next-line array-callback-return
+    let resBusqueda = tablaBuscar.filter((emisora) => {
+      if (
+        emisora.nombreEmisora
+          .toString()
+          .toLowerCase()
+          .includes(emisoraBuscada.toLowerCase())
+      )
+        return emisora;
+    });
+    setDataEmisora(resBusqueda);
+  };
 
   const selectUser = (emisora, accion) => {
     setInsertEmisora(emisora);
@@ -133,9 +134,19 @@ const EmisorasPage = () => {
     setDeleteVisible(!deleteVisible);
   };
 
-  useEffect(() => {
-    getAllUser();
+  // --------------------- React Query ---------------------------
+
+  const { isFetching } = useQuery(["emisoras"], getAllUser, {
+    refetchInterval: 48000,
+    refetchOnWindowFocus: false
+  });
+
+  /** 
+   useEffect(() => {
+     getAllUser();
   }, []);
+     * 
+    */
 
   return (
     <>
@@ -166,11 +177,11 @@ const EmisorasPage = () => {
             </b>
           </button>
           <div className="buscador">
-            <InputText 
-                value={search}
-                placeholder="Buscar..."
-                onChange={handleSearch}
-             />
+            <InputText
+              value={search}
+              placeholder="Buscar..."
+              onChange={handleSearch}
+            />
           </div>
         </div>
         <br />
@@ -200,7 +211,11 @@ const EmisorasPage = () => {
             </tr>
           </thead>
           <tbody>
-            {!dataEmisora?.length && <tr><td colSpan="11"> No existen resultados</td></tr>}
+            {!dataEmisora?.length && (
+              <tr>
+                <td colSpan="11"> No existen resultados</td>
+              </tr>
+            )}
             {dataEmisora.map((emisora) => (
               <tr key={emisora.id}>
                 <td>{emisora.id}</td>
@@ -633,7 +648,13 @@ const EmisorasPage = () => {
       </Dialog>
 
       {/**--------------------------- FooterPage -------------------------- */}
-      <FooterPage className="footer-component"/>
+      <FooterPage className="footer-component" />
+
+      {isFetching && (
+        <div id="container_loading">
+          <div id="loading"></div>
+        </div>
+      )}
     </>
   );
 };

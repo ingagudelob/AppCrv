@@ -1,9 +1,14 @@
 
 const HomePage = () => {
     return (
-        <div>
+        <div className="container"> 
 
-            <h1> Home </h1>
+            <img 
+                src="https://crvradio.com.co/wp-content/uploads/2021/07/BANNER-APP-jpg-min.jpg" 
+                alt="Imagen CRV Radio"
+                width="100%"
+                />
+
 
         </div>
     )

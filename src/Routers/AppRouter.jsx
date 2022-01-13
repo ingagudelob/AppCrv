@@ -10,7 +10,7 @@ import DetailEmisoras from "../components/pages/informes/DetailEmisoras";
 import NewFormPage from "../components/pages/informes/NewFormPage";
 import InformesPage from "../components/pages/informes/InformesPage";
 import LoginPage from "../components/pages/logins/LoginPage";
-import { NoFoundPage } from "../components/pages/NoFoundPage";
+import { NoFoundPage } from "../components/pages/NoFoundPage/NoFoundPage";
 import UserPage from "../components/pages/usuarios/UserPage";
 import Navigator from "../navigators/Navigator";
 

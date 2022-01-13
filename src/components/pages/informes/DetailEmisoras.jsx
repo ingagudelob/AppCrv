@@ -8,13 +8,15 @@ export default function DetailEmisoras() {
    * solcitar el detalle del informe, utilizando un useEfecct
    */
 
-  const { getAllIformesDetail, informesDetail } = useContext(EmisorasContext);
+  const { getAllIformesDetail, informesDetail, isLoading } = useContext(EmisorasContext);
   const { id } = useParams();
 
   useEffect(() => {
     getAllIformesDetail(id).catch(null);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  if(isLoading) <p>Cargando</p>
 
   return (
     <div>

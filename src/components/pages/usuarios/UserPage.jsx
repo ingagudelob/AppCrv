@@ -1,8 +1,8 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Table } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUserPlus } from "@fortawesome/free-solid-svg-icons";
+import { faUserPlus, faUserEdit } from "@fortawesome/free-solid-svg-icons";
 import { Dialog } from "primereact/dialog";
 import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
@@ -11,6 +11,7 @@ import "../cssPage/cssPages.css";
 import Form from "react-bootstrap/Form";
 import Footer from "../../../footers/Footer";
 import FooterPage from "../../../footers/FooterPage";
+import { useQuery } from "react-query";
 
 const URLBasic = "http://localhost:9000/apiscrv/user/";
 
@@ -114,9 +115,14 @@ const UserPage = () => {
     setDeleteVisible(!deleteVisible);
   };
 
-  useEffect(() => {
-    getAllUser();
-  }, []);
+  const { isFetching } = useQuery(["user"], getAllUser, {
+    refetchInterval: 48000,
+    refetchOnWindowFocus: false
+  });
+
+  //useEffect(() => {
+  //  getAllUser();
+  //}, []);
 
   return (
     <>
@@ -387,7 +393,7 @@ const UserPage = () => {
             fontSize="55px"
             style={{ margin: "10px 5px 0px 44%", fontSize: "60px" }}
             title="Iglesias"
-            icon={faUserPlus}
+            icon={faUserEdit}
           />
         }
         visible={editarVisible}
@@ -541,6 +547,12 @@ const UserPage = () => {
       
       {/**--------------------------- FooterPage -------------------------- */}
       <FooterPage className="footer-component"/>
+
+      {isFetching && (
+        <div id="container_loading">
+          <div id="loading"></div>
+        </div>
+      )}
     </>
   );
 };
