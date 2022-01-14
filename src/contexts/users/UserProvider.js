@@ -1,18 +1,37 @@
-import { useState } from "react"
-import UserContext from "./UserContext"
+import { useState } from "react";
+import UserContext from "./UserContext";
+import ApiUser from "../../apis/ApiUser"
 
-const UserProvider = ({children}) => {
+const UserProvider = ({ children }) => {
 
-    const [userLogin] = useState({email:"inge@gmail.com", pass: "12345"});
+  const [userIn, setUserIn] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [userData, setUserData] = useState([]);
 
-    return (
+  const getAllUser = async () =>{
 
-             <UserContext.Provider value={userLogin}>
-                {children}
-             </UserContext.Provider>
+    try {
+      setIsLoading(true);
+      const userRes = await ApiUser ({
+        url: "http://localhost:9000/apiscrv/user/listUser",
+        
+      }); 
+      setUserData(userRes.response);
+    } catch (error) {
+        Promise.reject(error);
+      setUserData([]);
+    }finally{
+      setIsLoading(false);
 
-    )
-}
+    }
+  };
 
-export default UserProvider
-  
+
+  return (
+    <UserContext.Provider value={{ getAllUser, userIn, setUserIn, isLoading, userData, setUserData }}>
+      {children}
+    </UserContext.Provider>
+  );
+};
+
+export default UserProvider;

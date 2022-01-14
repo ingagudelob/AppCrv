@@ -13,8 +13,13 @@ import {
   faBroadcastTower,
   faPlaceOfWorship
 } from "@fortawesome/free-solid-svg-icons";
+import { useContext } from "react";
+import UserContext from "../contexts/users/UserContext";
+
 
 const Navigator = () => {
+
+  const {userIn} = useContext(UserContext);
 
   
   return (
@@ -120,6 +125,7 @@ const Navigator = () => {
           </Nav>
         </Navbar.Collapse>
       </Navbar>
+      <p>{userIn.userName}</p>
     </>
   );
 };

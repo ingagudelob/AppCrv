@@ -6,9 +6,10 @@ import AppRouter from './Routers/AppRouter';
 function App() {
   return (
     <div>
-      {/*<LoginPage/>*/}
+      
       <UserProvider>
         <EmisoraProvider>
+          <LoginPage/>
           <AppRouter/>
         </EmisoraProvider>
       </UserProvider>

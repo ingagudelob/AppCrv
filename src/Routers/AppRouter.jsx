@@ -4,7 +4,7 @@ import {
   Route,
 } from "react-router-dom/cjs/react-router-dom.min";
 import EmisorasPage from "../components/pages/emisoras/EmisorasPage";
-import HomePage from "../components/pages/HomePage";
+import HomePage from "../components/pages/home/HomePage";
 import IglesiasPage from "../components/pages/iglesias/IglesiasPage";
 import DetailEmisoras from "../components/pages/informes/DetailEmisoras";
 import NewFormPage from "../components/pages/informes/NewFormPage";
