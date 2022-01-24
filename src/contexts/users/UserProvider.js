@@ -8,6 +8,8 @@ const UserProvider = ({ children }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [userData, setUserData] = useState([]);
 
+  const logout = () =>{ setUserIn(null)};
+  
   const getAllUser = async () =>{
 
     try {
@@ -26,9 +28,19 @@ const UserProvider = ({ children }) => {
     }
   };
 
+  const contextValue = {
+    getAllUser,
+    userIn,
+    setUserIn,
+    isLoading,
+    userData,
+    setUserData,
+    logout
+  }
+
 
   return (
-    <UserContext.Provider value={{ getAllUser, userIn, setUserIn, isLoading, userData, setUserData }}>
+    <UserContext.Provider value={ contextValue }>
       {children}
     </UserContext.Provider>
   );

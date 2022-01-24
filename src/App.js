@@ -1,22 +1,23 @@
-import LoginPage from './components/pages/logins/LoginPage.jsx'
-import EmisoraProvider from './contexts/emisoraContext/EmisoraProvider.js';
-import UserProvider from './contexts/users/UserProvider.js';
-import AppRouter from './Routers/AppRouter';
+import { BrowserRouter as Router } from "react-router-dom";
+import EmisoraProvider from "./contexts/emisoraContext/EmisoraProvider.js";
+import UserProvider from "./contexts/users/UserProvider.js";
+import Layout from "./navigators/Layout";
+import AppRouter from "./Routers/AppRouter";
 
 function App() {
   return (
     <div>
-      
-      <UserProvider>
-        <EmisoraProvider>
-          <LoginPage/>
-          <AppRouter/>
-        </EmisoraProvider>
-      </UserProvider>
+      <Router>
+        <UserProvider>
+          <EmisoraProvider>
+            <Layout>
+              <AppRouter />
+            </Layout>
+          </EmisoraProvider>
+        </UserProvider>
+      </Router>
     </div>
-
   );
 }
 
 export default App;
- 

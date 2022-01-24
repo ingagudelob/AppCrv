@@ -11,26 +11,17 @@ import {
   faFileContract,
   faUsers,
   faBroadcastTower,
-  faPlaceOfWorship
+  faPlaceOfWorship,
 } from "@fortawesome/free-solid-svg-icons";
 import { useContext } from "react";
 import UserContext from "../contexts/users/UserContext";
 
-
 const Navigator = () => {
+  const { userIn, logout } = useContext(UserContext);
 
-  const {userIn} = useContext(UserContext);
-
-  
   return (
     <>
-      <Navbar
-        collapseOnSelect
-        expand="lg"
-        variant="dark"
-        bg="secondary"
-        
-      >
+      <Navbar collapseOnSelect expand="lg" variant="dark" bg="secondary">
         <Navbar.Brand as={NavLink} to="/" className="mx-4">
           <Image src="CRV-300x300.png" alt="Image" width="50" title="Home" />
 
@@ -104,19 +95,37 @@ const Navigator = () => {
 
           <Nav className="mx-1">
             <Nav.Link as={NavLink} to="/users">
-                <FontAwesomeIcon fontSize="55px"  style={{margin: "0px  10px -5px", fontSize: "25px"}}  title="Usuarios" icon={faUsers} />
-                Usuarios
+              <FontAwesomeIcon
+                fontSize="55px"
+                style={{ margin: "0px  10px -5px", fontSize: "25px" }}
+                title="Usuarios"
+                icon={faUsers}
+              />
+              Usuarios
             </Nav.Link>
             <Nav.Link as={NavLink} to="/emisoras">
-              <FontAwesomeIcon fontSize="55px"  style={{margin: "0px  10px -5px", fontSize: "22px"}}  title="Emisoras" icon={faBroadcastTower} />
+              <FontAwesomeIcon
+                fontSize="55px"
+                style={{ margin: "0px  10px -5px", fontSize: "22px" }}
+                title="Emisoras"
+                icon={faBroadcastTower}
+              />
               Emisoras
             </Nav.Link>
             <Nav.Link as={NavLink} to="/iglesias">
-              <FontAwesomeIcon fontSize="55px"  style={{margin: "0px  10px -5px", fontSize: "22px"}}  title="Iglesias" icon={faPlaceOfWorship} />
+              <FontAwesomeIcon
+                fontSize="55px"
+                style={{ margin: "0px  10px -5px", fontSize: "22px" }}
+                title="Iglesias"
+                icon={faPlaceOfWorship}
+              />
               Iglesias
             </Nav.Link>
-            <Nav.Link as={NavLink} to="/cerrar">
+            <Nav.Link as={NavLink} onClick={logout} to="/">
               Cerrar sesión
+            </Nav.Link>
+            <Nav.Link>
+            {userIn.userName && <p className=" ">{userIn.userName}</p>}
             </Nav.Link>
             <Nav.Link
               style={{ color: "#0acffe", float: "right" }}
@@ -125,10 +134,10 @@ const Navigator = () => {
           </Nav>
         </Navbar.Collapse>
       </Navbar>
-      <p>{userIn.userName}</p>
+
+      <p>{userIn?.userName}</p>
     </>
   );
 };
 
 export default Navigator;
-
