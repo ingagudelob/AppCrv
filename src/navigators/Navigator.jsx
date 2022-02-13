@@ -18,6 +18,7 @@ import UserContext from "../contexts/users/UserContext";
 
 const Navigator = () => {
   const { userIn, logout } = useContext(UserContext);
+  console.log(userIn);
 
   return (
     <>
@@ -121,11 +122,9 @@ const Navigator = () => {
               />
               Iglesias
             </Nav.Link>
-            <Nav.Link as={NavLink} onClick={logout} to="/">
-              Cerrar sesión
-            </Nav.Link>
+            <NavLink to="/loginPage">Cerrar sesión</NavLink>
             <Nav.Link>
-            {userIn.userName && <p className=" ">{userIn.userName}</p>}
+              {userIn.userName && <p className=" ">{userIn.userName}</p>}
             </Nav.Link>
             <Nav.Link
               style={{ color: "#0acffe", float: "right" }}
