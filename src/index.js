@@ -9,6 +9,7 @@ import {
   QueryClient,
   QueryClientProvider,
 } from 'react-query'
+import Login from './components/pages/logins/Login';
 
 
 const queryClient = new QueryClient()

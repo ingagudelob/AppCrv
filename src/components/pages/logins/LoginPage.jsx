@@ -7,6 +7,7 @@ import { useEffect } from "react";
 import { useContext } from "react";
 import UserContext from "../../../contexts/users/UserContext";
 import axios from "axios";
+import "./css/stye.css"
 
 
 const URLBasic = "http://localhost:9000/apiscrv/user/";
@@ -24,7 +25,7 @@ const LoginPage = ({url}) => {
   const [inLogin, setinLogin] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  const onHide = null;
+  const onHide = false;
 
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
@@ -35,8 +36,24 @@ const LoginPage = ({url}) => {
 
   const handleForSubmit = (e) => {
       e.preventDefault();
-      userData.map((user)=>{
-          console.log(user);
+
+          if(!email.trim()){
+            console.log("¡Ingresa un email!");
+            setTexto("¡Ingresa un email!")
+            return
+          }
+          if(!pass.trim()){
+            setTexto("¡Ingresa una contraseña!");
+            return
+          }
+
+          if(pass.length <= 8){
+            setTexto("Ingresa una contaseña mayor o igual a 8 caracteres");
+            return
+          }
+
+          userData.map((user)=>{
+          
           if (email === user.user && pass === user.pass) {
               e.preventDefault();
               setInUser(true);
@@ -85,19 +102,21 @@ const LoginPage = ({url}) => {
 
   return (
     <div>
+
       <Dialog
         className="class-dialog"
         visible={visible}
-        onHide={onHide}
+        onHide={() => setVisible(false)}
         breakpoints={{ "660px": "65vw", "440px": "90vw" }}
-        style={{ width: "30vw" }}
+        
       >
         <Card style={{ width: "100%", marginBottom: "1em" }}>
           <Card.Img
-            className="img-logo"
+            className="img-logo "
+            width="30%"
             variant="top"
             src="CRV-300X300.PNG"
-            width="30%"
+            
             alt=""
           />
           <Card.Title className="text-center">
@@ -108,7 +127,6 @@ const LoginPage = ({url}) => {
               <Form.Group className="mb-3" controlId="formBasicEmail">
                 <Form.Label style={{ padding: "0px" }}>Usuario (*)</Form.Label>
                 <Form.Control
-                  required
                   type="email"
                   placeholder="ejemplo@midominio.com"
                   value={email}
@@ -120,7 +138,6 @@ const LoginPage = ({url}) => {
               <Form.Group className="mb-3" controlId="formBasicPassword">
                 <Form.Label>Contraseña (*)</Form.Label>
                 <Form.Control
-                  required
                   type="password"
                   placeholder="Ingrese contraseña"
                   value={pass}
@@ -129,7 +146,7 @@ const LoginPage = ({url}) => {
                 {inUser && inLogin ? (
                   isLoading && <p>Loading...</p>
                 ) : (
-                  <p>{texto}</p>
+                  <div className="alert-danger text-center">{texto}</div>
                 )}
               </Form.Group>
 

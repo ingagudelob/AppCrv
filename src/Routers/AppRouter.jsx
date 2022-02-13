@@ -8,6 +8,8 @@ import InformesPage from "../components/pages/informes/InformesPage";
 import LoginPage from "../components/pages/logins/LoginPage";
 import { NoFoundPage } from "../components/pages/NoFoundPage/NoFoundPage";
 import UserPage from "../components/pages/usuarios/UserPage";
+import Login from "../components/pages/logins/Login";
+import UserPerfil from "../components/pages/usuarios/UserPerfil";
 /*import { useContext } from "react";
 import UserContext from "../contexts/users/UserContext";
 import { Redirect } from "react-router-dom";
@@ -19,13 +21,13 @@ const AppRouter = (props) => {
     <>
       <Switch>
         <Route exact path="/loginPage" component={LoginPage}></Route>
+        <Route exact path="/login" component={Login}></Route>
         <Route exact path="/" component={HomePage}></Route>
         <Route exact path="/nuevoInforme" component={NewFormPage}></Route>
-        <Route exact path="/listarInformes/:id"
-          component={DetailEmisoras}
-        ></Route>
+        <Route exact path="/listarInformes/:id" component={DetailEmisoras}></Route>
         <Route exact path="/listarInformes" component={InformesPage}></Route>
         <Route exact path="/users" component={UserPage}></Route>
+        <Route exact path="/users/:userName" component={UserPerfil}></Route>
         <Route exact path="/emisoras" component={EmisorasPage}></Route>
         <Route exact path="/iglesias" component={IglesiasPage}></Route>
         <Route exact path="/buscarUsuarios"></Route>
