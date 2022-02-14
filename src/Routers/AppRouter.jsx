@@ -27,7 +27,7 @@ const AppRouter = (props) => {
         <Route exact path="/listarInformes/:id" component={DetailEmisoras}></Route>
         <Route exact path="/listarInformes" component={InformesPage}></Route>
         <Route exact path="/users" component={UserPage}></Route>
-        <Route exact path="/users/:userName" component={UserPerfil}></Route>
+        <Route exact path="/users/:id" component={UserPerfil}></Route>
         <Route exact path="/emisoras" component={EmisorasPage}></Route>
         <Route exact path="/iglesias" component={IglesiasPage}></Route>
         <Route exact path="/buscarUsuarios"></Route>

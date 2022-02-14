@@ -25,10 +25,9 @@ const Navigator = (props) => {
   };
 
   return (
-    <>{
-      userIn && 
-        <Navbar collapseOnSelect expand="lg" variant="dark"             bg="secondary"
-          >
+    <>
+      {userIn && (
+        <Navbar collapseOnSelect expand="lg" variant="dark" bg="secondary">
           <Navbar.Brand as={NavLink} to="/" className="mx-4">
             <Image src="CRV-300x300.png" alt="Image" width="50" title="Home" />
 
@@ -104,7 +103,7 @@ const Navigator = (props) => {
               <Nav.Link as={NavLink} to="/users">
                 <FontAwesomeIcon
                   fontSize="55px"
-                  style={{ margin: "0px  10px -5px", fontSize: "25px" }}
+                  style={{ margin: "0px  10px -5px", fontSize: "22px" }}
                   title="Usuarios"
                   icon={faUsers}
                 />
@@ -119,7 +118,10 @@ const Navigator = (props) => {
                 />
                 Emisoras
               </Nav.Link>
-              <Nav.Link as={NavLink} to="/iglesias">
+              <Nav.Link 
+                as={NavLink} 
+                to="/iglesias"
+                >
                 <FontAwesomeIcon
                   fontSize="55px"
                   style={{ margin: "0px  10px -5px", fontSize: "22px" }}
@@ -128,21 +130,16 @@ const Navigator = (props) => {
                 />
                 Iglesias
               </Nav.Link>
-              <Nav.Link onClick={handleLogOut}>Cerrar sesión</Nav.Link>
-              <Nav.Link as={NavLink} to="">
-                {userIn.userName && <p className=" ">{userIn.userName}</p>}
+              <Nav.Link onClick={handleLogOut}>Cerrar sesión </Nav.Link>
+              <Nav.Link as={NavLink} to={`/users/${userIn.id}`}>
+                {userIn.userName && <div className=" ">{userIn.userName}</div>}
               </Nav.Link>
-              <Nav.Link
-                style={{ color: "#0acffe", float: "right" }}
-                disabled
-              ></Nav.Link>
             </Nav>
           </Navbar.Collapse>
         </Navbar>
-
+      )
       
-
-    }
+      }
     </>
   );
 };

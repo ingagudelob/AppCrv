@@ -4,12 +4,12 @@ import ListItemEmisoras from "./ListItemEmisoras";
 // es lo mismo q colocar name = emisora.name url= emisora.url
 // puesto q son los dos argumento q trae el componente
 
-export default function ListEmisoras ({emisoras}){
-    return(
-        <div>
-            {emisoras?.map((emisora, index)=>(
-                    <ListItemEmisoras key={index} {...emisora}/>
-            ))}
-        </div>
-    );
-};
+export default function ListEmisoras({ emisoras }) {
+  return (
+    <div>
+      {emisoras?.map((emisora, index) => (
+        <ListItemEmisoras key={index} {...emisora} />
+      ))}
+    </div>
+  );
+}

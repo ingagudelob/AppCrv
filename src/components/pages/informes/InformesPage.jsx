@@ -12,6 +12,7 @@ const InformesPage = ({ url, name }) => {
 
   const { getAllEmisoras, emisora } = useContext(EmisorasContext);
   const {search} = useLocation();
+  let history = useHistory();
   const LIMIT = 20;
   
   // Para serializar el pasro de las variables con URLSearchParams
@@ -22,22 +23,20 @@ const InformesPage = ({ url, name }) => {
 
   let start = parseInt(query.get("inicio"))||1; // Traer el valor de la plabra inicio en string, toca convertirla en Int. Si la variable start no esta definida, tome un valor de 1
 
-  let end = parseInt(query.get("fin"))||LIMIT;  // Traer el valor de la palabra fin  en string, toca convertirla en Int. Si la variable end no esta definida, tome un valor de LIMIT
-
-
-
-
-
-  
+  let end = parseInt(query.get("fin"))||LIMIT;  // Traer el valor de la palabra fin  en string, toca convertirla en Int, sino al sumar en el push se concatena. Si la variable end no esta definida, tome un valor de LIMIT
 
   const handleBack = (e) => {
     history.push({search:`?inicio=${start-LIMIT}&fin=${end-LIMIT}`})
   }
+
+  // Cuando presiones el boton Next vas a pasar un objeto, donde la propiedad search con una query dinamica, del historial utiliza el metodo push para modificarel historial e ir a ella
+
   const handleNext = (e) => {
     history.push({search:`?inicio=${start + LIMIT}&fin=${end+LIMIT}`})
   }
 
-  let history = useHistory();
+
+  
 
   useEffect(() => {
     getAllEmisoras().catch(null);
@@ -48,6 +47,9 @@ const InformesPage = ({ url, name }) => {
     <div className="container">
       <h1>Listado de informe</h1>
       <p>Listado de Pokemos <b>{start}</b> de <b>{end}</b></p>
+      { 
+
+      }
       <ListEmisoras emisoras={emisora} />
       {
         start>LIMIT &&(
