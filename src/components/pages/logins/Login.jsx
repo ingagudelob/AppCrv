@@ -10,13 +10,18 @@ import {withRouter} from "react-router-dom"
 const URLBasic = "http://localhost:9000/apiscrv/user/";
 
 const Login = (props) => {
-  const { setUserIn, userData, setUserData } = useContext(UserContext);
+  const { 
+    setUserIn, 
+    userData, 
+    setUserData, 
+    userActive, 
+    setUserActive
+  } = useContext(UserContext);
   //console.log(userData);
 
   const [texto, setTexto] = useState("");
   const [email, setEmail] = useState("");
   const [pass, setPass] = useState("");
-  const [inUser, setInUser] = useState(false);
   const [inLogin, setinLogin] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -48,7 +53,7 @@ const Login = (props) => {
     userData.map((user) => {
       if (email === user.user && pass === user.pass) {
         e.preventDefault();
-        setInUser(true);
+        setUserActive(true);
         setinLogin(true);
         setTexto("");
         setIsLoading(true);
@@ -85,7 +90,10 @@ const Login = (props) => {
   };
 
   useEffect(() => {
-    getAllUser().catch(null);
+    getAllUser();
+    setUserData([]);
+    setIsLoading(false);
+
   }, []);
 
   return (
@@ -123,7 +131,7 @@ const Login = (props) => {
                 value={pass}
                 onChange={handlePassChange}
               />
-              {inUser && inLogin ? (
+              {userActive && inLogin ? (
                 isLoading && <p>Loading...</p>
               ) : (
                 <div className="alert-danger text-center">{texto}</div>

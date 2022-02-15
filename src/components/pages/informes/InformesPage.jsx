@@ -36,8 +36,6 @@ const InformesPage = ({ url, name }) => {
   }
 
 
-  
-
   useEffect(() => {
     getAllEmisoras().catch(null);
   // eslint-disable-next-line react-hooks/exhaustive-deps

@@ -8,8 +8,6 @@ const HomePage = () => {
                 alt="Imagen CRV Radio"
                 width="100%"
                 />
-
-
         </div>
     )
 }

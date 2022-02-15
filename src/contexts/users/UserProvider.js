@@ -5,6 +5,7 @@ import ApiUser from "../../apis/ApiUser"
 const UserProvider = ({ children }) => {
 
   const [userIn, setUserIn] = useState([]);
+  const [userActive, setUserActive] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [userData, setUserData] = useState([]);
 
@@ -29,6 +30,8 @@ const UserProvider = ({ children }) => {
   };
 
   const contextValue = {
+    userActive, 
+    setUserActive,
     getAllUser,
     userIn,
     setUserIn,
