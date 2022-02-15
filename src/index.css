@@ -88,7 +88,7 @@ p{
 }
 
 .footer-grl {
-  background-color: black;
+  background-color: rgb(49, 109, 187);
   left: 0;
   bottom: 0;
   color: white;
@@ -108,7 +108,7 @@ p{
 }
 
 .nav-link {
-  font-size: 13px;
+  font-size: 14px;
 }
 
 @media (max-width: 500px) {

@@ -172,9 +172,9 @@ const UserPage = () => {
           striped
           bordered
           hover
-          variant="primary"
           size="sm"
           className="container"
+          style={{fontSize: "14px"}}
         >
             <thead className="text-center text-bold">
               <tr>
@@ -209,15 +209,25 @@ const UserPage = () => {
                       className=" mb-1 mt-1"
                       variant="warning"
                       onClick={() => selectUser(usuario, "Editar")}
+                      style={{fontSize: "12px"}}
                     >
-                      <i className="pi pi-pencil" width="20%"></i>
+                      <i 
+                        className="pi pi-pencil" 
+                        width="10%"
+                        style={{fontSize: "13px"}}
+                      ></i>
                     </ButtonB>{" "}
                     <ButtonB
                       className=" mb-1 mt-1"
                       variant="danger"
                       onClick={() => selectUser(usuario, "Eliminar")}
+                      style={{fontSize: "12px"}}
                     >
-                      <i className="pi pi-trash" width="20%"></i>
+                      <i 
+                        className="pi pi-trash" 
+                        width="10%"
+                        style={{fontSize: "13px"}}  
+                      ></i>
                     </ButtonB>
                   </td>
                 </tr>

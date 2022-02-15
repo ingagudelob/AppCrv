@@ -191,7 +191,6 @@ const EmisorasPage = () => {
           striped
           bordered
           hover
-          variant="primary"
           size="sm"
           className="container"
         >
@@ -238,15 +237,17 @@ const EmisorasPage = () => {
                     className=" mb-1 mt-1"
                     variant="warning"
                     onClick={() => selectUser(emisora, "Editar")}
+                    style={{fontSize: "12px"}}
                   >
-                    <i className="pi pi-pencil" width="20%"></i>
+                    <i className="pi pi-pencil" width="20%" style={{fontSize: "13px"}}></i>
                   </ButtonB>{" "}
                   <ButtonB
                     className=" mb-1 mt-1"
                     variant="danger"
                     onClick={() => selectUser(emisora, "Eliminar")}
+                    style={{fontSize: "12px"}}
                   >
-                    <i className="pi pi-trash" width="20%"></i>
+                    <i className="pi pi-trash" width="20%" style={{fontSize: "13px"}}></i>
                   </ButtonB>
                 </td>
               </tr>
